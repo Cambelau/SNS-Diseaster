@@ -11,39 +11,49 @@ from data.conn import conn
 
 # conn = psycopg2.connect(host="containers-us-west-70.railway.app",database="railway",port=7637 ,user="postgres",password="v4Rnu4WDaVHtwAHfMXiY")
 
-def dbConnect(user_id, user_name, tweet_id, tweet, retweet_count, hashtags):# Insert Tweet data into database
+def dbConnect(tweet_id, author_id, like_count, quote_count,retweet_count,content):# Insert Tweet data into database
     conn = psycopg2.connect(host="containers-us-west-70.railway.app",database="railway",port=7637 ,user="postgres",password="v4Rnu4WDaVHtwAHfMXiY")
     cur = conn.cursor()
 
-    # insert user information
-    command = '''INSERT INTO TwitterUser (user_id, user_name) VALUES (%s,%s) ON CONFLICT
-                 (User_Id) DO NOTHING;'''
-    try:
-        cur.execute(command,(user_id,user_name))
-    except Exception as e:
-        print (e.message)
-        cur = conn.cursor()
-    # cur.execute(command,(user_id,user_name))
-
     # insert tweet information
-    command = '''INSERT INTO TwitterTweet (tweet_id, user_id, tweet, retweet_count) VALUES (%s,%s,%s,%s);'''
+    command = '''INSERT INTO twitterstream (tweet_id, author_id, like_count, quote_count, retweet_count,content) VALUES (%s,%s,%s,%s,%s,%s);'''
     # cur.execute(command,(tweet_id, user_id, tweet, retweet_count))
     try:
-        cur.execute(command,(tweet_id, user_id, tweet, retweet_count))
+        cur.execute(command,(tweet_id, author_id, like_count, quote_count,retweet_count,content))
     except Exception as e:
         print (e.message)
         cur = conn.cursor()
+    ## cur.execute(command,(tweet_id, author_id, like_count, quote_count,retweet_count,content))
     
-    # insert entity information
-    for i in range(len(hashtags)):
-        hashtag = hashtags[i]
-        command = '''INSERT INTO TwitterEntity (tweet_id, hashtag) VALUES (%s,%s);'''
-        # cur.execute(command,(tweet_id, hashtag))
-        try:
-            cur.execute(command,(tweet_id, hashtag))
-        except Exception as e:
-            print (e.message)
-            cur = conn.cursor()
+    # # insert user information
+    # command = '''INSERT INTO TwitterUser (user_id, user_name) VALUES (%s,%s) ON CONFLICT
+    #              (User_Id) DO NOTHING;'''
+    # try:
+    #     cur.execute(command,(user_id,user_name))
+    # except Exception as e:
+    #     print (e.message)
+    #     cur = conn.cursor()
+    # cur.execute(command,(user_id,user_name))
+
+    # # insert tweet information
+    # command = '''INSERT INTO TwitterTweet (tweet_id, user_id, tweet, retweet_count) VALUES (%s,%s,%s,%s);'''
+    # # cur.execute(command,(tweet_id, user_id, tweet, retweet_count))
+    # try:
+    #     cur.execute(command,(tweet_id, user_id, tweet, retweet_count))
+    # except Exception as e:
+    #     print (e.message)
+    #     cur = conn.cursor()
+    
+    # # insert entity information
+    # for i in range(len(hashtags)):
+    #     hashtag = hashtags[i]
+    #     command = '''INSERT INTO TwitterEntity (tweet_id, hashtag) VALUES (%s,%s);'''
+    #     # cur.execute(command,(tweet_id, hashtag))
+    #     try:
+    #         cur.execute(command,(tweet_id, hashtag))
+    #     except Exception as e:
+    #         print (e.message)
+    #         cur = conn.cursor()
     # Commit changes
     conn.commit()
     
@@ -128,16 +138,22 @@ def get_stream(set):
         if response_line:
             json_response = json.loads(response_line)
             print(json.dumps(json_response, indent=4, sort_keys=True))
+            # tweet_id =json_response['data']['id']
+            # author_id = json_response['data']['author_id']
+            # retweet_count=int(json_response['data']['public_metrics']['like_count'])
+            # like_count=int(json_response['data']['public_metrics']['quote_count'])
+            # quote_count=int(json_response['data']['public_metrics']['retweet_count'])
             tweet_id =json_response['data']['id']
-            user_id = json_response['data']['author_id']
-            username=tweet=hashtags="a"
-            retweet_count=5
+            author_id = json_response['data']['author_id']
+            retweet_count=0
+            like_count=0
+            quote_count=0
             lang=json_response['data']['lang']
-            tweet= json_response['data']['text']
+            content= json_response['data']['text']
             # If tweet is not a retweet and tweet is in English
             if  lang=="en":
                 # Connect to database
-                dbConnect(user_id, username, tweet_id, tweet, retweet_count, hashtags)
+                dbConnect(tweet_id, author_id, like_count, quote_count,retweet_count,content)
             
 def main():
     rules = get_rules()
