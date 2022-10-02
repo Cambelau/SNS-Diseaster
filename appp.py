@@ -1,26 +1,48 @@
-from dash import Dash, dcc, html, Input, Output, State
+from dash import Dash, html, Input, Output
+import dash_daq as daq
+import  streamingTweet 
+
+
+import threading
+import time
+
+
+should_run = False
+class a:
+    def __init__(self):
+        while True:
+            if should_run:
+                streamingTweet.main()
+
+
+
+
+
+
 
 app = Dash(__name__)
 
 app.layout = html.Div([
-    html.Div(dcc.Input(id='input-on-submit', type='text')),
-    html.Button('Submit', id='submit-val', n_clicks=0),
-    html.Div(id='container-button-basic',
-             children='Enter a value and press submit')
+    daq.ToggleSwitch(
+        id='my-toggle-switch',
+        value=False
+    ),
+    html.Div(id='my-toggle-switch-output')
 ])
 
 
 @app.callback(
-    Output('container-button-basic', 'children'),
-    Input('submit-val', 'n_clicks'),
-    State('input-on-submit', 'value')
+    Output('my-toggle-switch-output', 'children'),
+    Input('my-toggle-switch', 'value')
 )
-def update_output(n_clicks, value):
-    return 'The input value was "{}" and the button has been clicked {} times'.format(
-        value,
-        n_clicks
-    )
+def update_output(value):
+    # global should_run
+    # should_run = value
+    return f'The switch is {value}.'
+
 
 
 if __name__ == '__main__':
+    t1 = threading.Thread(target=a,daemon=True)
+    t1.start()
     app.run_server(debug=False, host='0.0.0.0')

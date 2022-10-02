@@ -5,6 +5,7 @@ import json
 import psycopg2
 from data.conn import conn
 
+# print json ligne 140
 # ligne 111 pour la sauvegarde en DB
 # ligne 102 pour les valeurs requetées
 # ligne 82 pour les rules de la requete api
@@ -137,7 +138,7 @@ def get_stream(set):
     for response_line in response.iter_lines():
         if response_line:
             json_response = json.loads(response_line)
-            print(json.dumps(json_response, indent=4, sort_keys=True))
+            # print(json.dumps(json_response, indent=4, sort_keys=True))
             # tweet_id =json_response['data']['id']
             # author_id = json_response['data']['author_id']
             # retweet_count=int(json_response['data']['public_metrics']['like_count'])
@@ -160,5 +161,5 @@ def main():
     delete = delete_all_rules(rules)
     set = set_rules(delete)
     get_stream(set)
-    
-main()
+    print('running')
+# main()

@@ -18,16 +18,28 @@ commands = (# Table 1
             #                              CONSTRAINT fk_user
             #                                  FOREIGN KEY(Tweet_Id)
             #                                      REFERENCES TwitterTweet(Tweet_Id));''',
-            # Table 4
-            '''Create Table TwitterStream(Tweet_Id BIGINT PRIMARY KEY,
-                                         Author_ID BIGINT,
-                                         Like_count INT,
-                                        Quote_count INT,
-                                        Retweet_count INT,
-                                        content TEXT
+            # # Table 4
+            # '''Create Table TwitterStream(Tweet_Id BIGINT PRIMARY KEY,
+            #                              Author_ID BIGINT,
+            #                              Like_count INT,
+            #                             Quote_count INT,
+            #                             Retweet_count INT,
+            #                             content TEXT
+            #                             );''',  
+            # Table 5
+            '''Create Table TwitterArchive(id SERIAL  PRIMARY KEY,
+                                         username TEXT,
+                                         isverified BOOLEAN,
+                                        followersCount INT,
+                                        friendsCount INT,
+                                        content TEXT,
+                                        replyCount INT,
+                                        retweetCount INT,
+                                        likeCount INT,
+                                        quoteCount INT
                                         );''',                                    
                                             )
-commandss='''Drop Table  IF EXISTS TwitterStream;'''
+commandss='''Drop Table  IF EXISTS TwitterArchive;'''
 
 # Create cursor to execute SQL commands
 cur = conn.cursor()
