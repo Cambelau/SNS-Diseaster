@@ -44,6 +44,6 @@ def update_output(value):
 
 
 if __name__ == '__main__':
-    t1 = threading.Thread(target=a,daemon=True)
-    t1.start()
+    # t1 = threading.Thread(target=a,daemon=True)
+    # t1.start()
     app.run_server(debug=False, host='0.0.0.0')
