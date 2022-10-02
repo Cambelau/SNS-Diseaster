@@ -1,6 +1,6 @@
 from dash import Dash, html, Input, Output
 import dash_daq as daq
-import  streamingTweet 
+import  twitter_api 
 
 
 import threading
@@ -12,7 +12,7 @@ class a:
     def __init__(self):
         while True:
             if should_run:
-                streamingTweet.main()
+                twitter_api
 
 
 
