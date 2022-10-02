@@ -3,23 +3,17 @@ import dash_daq as daq
 import  twitter_api 
 
 
-import threading
-import time
+# import threading
+# import time
 
 
-should_run = False
-class a:
-    def __init__(self):
-        while True:
-            if should_run:
-                # twitter_api
-                qrrez=2
-
-
-
-
-
-
+# should_run = False
+# class a:
+#     def __init__(self):
+#         while True:
+#             if should_run:
+#                 # twitter_api
+#                 qrrez=2
 
 app = Dash(__name__)
 
@@ -44,6 +38,4 @@ def update_output(value):
 
 
 if __name__ == '__main__':
-    # t1 = threading.Thread(target=a,daemon=True)
-    # t1.start()
     app.run_server(debug=False, host='0.0.0.0')
