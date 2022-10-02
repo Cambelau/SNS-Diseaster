@@ -11,8 +11,8 @@ should_run = False
 class a:
     def __init__(self):
         while True:
-            if should_run:
-                twitter_api
+            # if should_run:
+            #     twitter_api
 
 
 
