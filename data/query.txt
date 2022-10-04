@@ -1,0 +1,11 @@
+Remove duplicate rows
+
+DELETE FROM twitterarchive
+WHERE id IN
+    (SELECT id
+    FROM 
+        (SELECT id,
+         ROW_NUMBER() OVER( PARTITION BY username,isverified,followersCount,friendsCount,content,replyCount,retweetCount,likeCount,quoteCount
+        ORDER BY  id ) AS row_num
+        FROM twitterarchive ) t
+        WHERE t.row_num > 1 );

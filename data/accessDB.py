@@ -1,15 +1,11 @@
 # from conn import conn
 import pandas as pd
-import pathlib
-import psycopg2
+from conn import conn
 
 # DB_FILE = '/app/tweets.sqlite'
 
 def DbConnect(query):
     
-    # conn = psycopg2.connect(host="localhost",database="TwitterDB",port=5432,user="postgres",password="matthieu")
-    conn = psycopg2.connect(host="dpg-ccr13n9a6gdlc0agf37g-a.oregon-postgres.render.com",database="twitterdb",port=5432,user="twitterdb_user",password="Voe2ktiDqONML8Lj9QvfkaH6gHK8tvOQ")
-
     curr = conn.cursor()
     
     curr.execute(query)
@@ -22,7 +18,7 @@ def DbConnect(query):
     
 def get_tweet_data():
     # Create 
-    data_tweet = DbConnect("SELECT User_Id, Tweet_Id, Tweet FROM TwitterTweet;")
+    data_tweet = DbConnect("SELECT User_Id, Tweet_Id, Tweet FROM TwitterArchive;")
 
     df_tweet = pd.DataFrame(columns=['User_Id','Tweet_Id','text'])
 
