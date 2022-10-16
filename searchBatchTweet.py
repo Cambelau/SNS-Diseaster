@@ -17,7 +17,7 @@ search_url = "https://api.twitter.com/2/tweets/search/all"
 # expansions,tweet.fields,media.fields,poll.fields,place.fields,user.fields
 query_params = {'query': 'Bank of America  -is:retweet -is:quote -is:reply',
                 'start_time' :'2022-09-01T00:00:00Z',
-                'end_time' :'2022-09-02T00:00:00Z',
+                'end_time' :'2022-09-03T00:00:00Z',
                 'tweet.fields': 'author_id,lang,public_metrics,created_at',
                 'max_results' : '100' ,
                 }
